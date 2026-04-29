@@ -1,0 +1,28 @@
+services:
+  backend:
+    build: ./backend
+    container_name: social-network-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+      # Храним базу данных отдельно, чтобы она не удалялась при перезапуске
+      - backend_db:/app/db_data 
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: social-network-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - WDS_SOCKET_PORT=0
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  backend_db:

@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS followers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    follower_id TEXT NOT NULL,
+    following_id TEXT NOT NULL,
+    status TEXT DEFAULT 'pending', -- pending, accepted
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (follower_id) REFERENCES users(id),
+    FOREIGN KEY (following_id) REFERENCES users(id),
+    UNIQUE(follower_id, following_id)
+);
